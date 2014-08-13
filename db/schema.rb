@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140812083646) do
+ActiveRecord::Schema.define(version: 20140813055016) do
 
   create_table "categories", force: true do |t|
     t.string   "name"
@@ -45,24 +45,17 @@ ActiveRecord::Schema.define(version: 20140812083646) do
   add_index "items", ["product_id"], name: "index_items_on_product_id", using: :btree
   add_index "items", ["shop_id"], name: "index_items_on_shop_id", using: :btree
 
-  create_table "line_items", force: true do |t|
-    t.integer  "item_id"
-    t.string   "name"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "line_items", ["item_id"], name: "index_line_items_on_item_id", using: :btree
-
   create_table "product_properties", force: true do |t|
     t.integer  "product_id"
     t.integer  "property_id"
+    t.integer  "property_item_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   add_index "product_properties", ["product_id"], name: "index_product_properties_on_product_id", using: :btree
   add_index "product_properties", ["property_id"], name: "index_product_properties_on_property_id", using: :btree
+  add_index "product_properties", ["property_item_id"], name: "index_product_properties_on_property_item_id", using: :btree
 
   create_table "products", force: true do |t|
     t.string   "name"
@@ -95,17 +88,27 @@ ActiveRecord::Schema.define(version: 20140812083646) do
     t.datetime "updated_at"
   end
 
-  create_table "skus", force: true do |t|
-    t.integer  "line_item_id"
+  create_table "sku_properties", force: true do |t|
+    t.integer  "sku_id"
     t.integer  "stock_property_id"
-    t.integer  "stock_property_item_id"
+    t.integer  "stock_propery_item_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  add_index "skus", ["line_item_id"], name: "index_skus_on_line_item_id", using: :btree
-  add_index "skus", ["stock_property_id"], name: "index_skus_on_stock_property_id", using: :btree
-  add_index "skus", ["stock_property_item_id"], name: "index_skus_on_stock_property_item_id", using: :btree
+  add_index "sku_properties", ["sku_id"], name: "index_sku_properties_on_sku_id", using: :btree
+  add_index "sku_properties", ["stock_property_id"], name: "index_sku_properties_on_stock_property_id", using: :btree
+  add_index "sku_properties", ["stock_propery_item_id"], name: "index_sku_properties_on_stock_propery_item_id", using: :btree
+
+  create_table "skus", force: true do |t|
+    t.integer  "item_id"
+    t.string   "name"
+    t.integer  "inventory"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "skus", ["item_id"], name: "index_skus_on_item_id", using: :btree
 
   create_table "stock_properties", force: true do |t|
     t.string   "name"

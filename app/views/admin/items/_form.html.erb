@@ -38,7 +38,8 @@
         </tr>
       </thead>
       <tbody>
-        <% @line_items.shift.product(*@line_items).each_with_index do |item, index| %>
+        <% if @line_items.length == 1 %>
+          <% @line_items.shift.product().each_with_index do |item, index| %>
             <tr class="hidden <%= item.map { |line| line[:name] }.join(' ') %>"  data-count='<%= item.length %>'>
               <% item.each_with_index do |line, inner_index| %>
                 <td><%= line[:name] %></td>
@@ -47,6 +48,18 @@
               <td><input type='text' name="item[line_items_attributes][<%= index %>][price]" disabled="disabled"></td>
               <td><input type='text' name="item[line_items_attributes][<%= index %>][inventory]" disabled="disabled">件</td>
             </tr>      
+          <% end %>
+        <% else %>
+          <% @line_items.shift.product(*@line_items).each_with_index do |item, index| %>
+            <tr class="hidden <%= item.map { |line| line[:name] }.join(' ') %>"  data-count='<%= item.length %>'>
+              <% item.each_with_index do |line, inner_index| %>
+                <td><%= line[:name] %></td>
+                <input type='hidden' name="item[line_items_attributes][<%= index %>][line_item_properties_attributes][<%= inner_index %>][item_property_item_id]" value="<%= line[:id] %>" disabled="disabled">
+              <% end %>
+              <td><input type='text' name="item[line_items_attributes][<%= index %>][price]" disabled="disabled"></td>
+              <td><input type='text' name="item[line_items_attributes][<%= index %>][inventory]" disabled="disabled">件</td>
+            </tr>      
+          <% end %>
         <% end %>
       </tbody>
     </table>

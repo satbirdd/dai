@@ -25,8 +25,6 @@ class Admin::ItemsController < ApplicationController
 		@line_items = @category.stock_properties.map do |p|
       p.stock_property_items.map { |item| {name: item.name, id: item.id} }
     end
-
-    puts "=== #{@line_items}"
 	end
 
 	def edit
@@ -49,5 +47,10 @@ class Admin::ItemsController < ApplicationController
 	        format.html { render text: "Permistion denied! You dont own this shop", status: 401 }
 	      end
 	    end
+		end
+
+		def item_params
+			params.require(:item).permit(:shop_id, :product_id,
+        line_items_attributes: [:price, :inventory, line_item_properties_attributes: [:item_property_item_id]])
 		end
 end

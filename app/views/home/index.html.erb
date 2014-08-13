@@ -1,0 +1,3 @@
+<% @categories.each do |category| %>
+	<a href='/search?cat=<%= category.id %>'><%= category.name %></a>
+<% end %>

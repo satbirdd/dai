@@ -1,0 +1,86 @@
+<%= form_for([:admin, @shop, @item]) do |f| %>
+  <% if @item.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@item.errors.count, "error") %> prohibited this item from being saved:</h2>
+
+      <ul>
+      <% @item.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <%= f.hidden_field :product_id, value: @product.id %>
+
+  <div>
+    <% @category.stock_properties.each do |property| %>
+      <div class="field">
+        <%= property.name %>
+        <span class="<%= property.name %>">
+          <% property.stock_property_items.each do |item| %>
+            <input type='checkbox' class='<%= item.name %>'><%= item.name %>
+          <% end %>
+        </span>
+      </div>
+    <% end %>
+  </div>
+
+  <div>
+    <table>
+      <thead>
+        <tr>
+          <% @category.stock_properties.each do |property| %>
+            <th><%= property.name %></th>
+          <% end %>
+          <th>价格</th>
+          <th>库存</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @line_items.shift.product(*@line_items).each_with_index do |item, index| %>
+            <tr class="hidden <%= item.map { |line| line[:name] }.join(' ') %>"  data-count='<%= item.length %>'>
+              <% item.each_with_index do |line, inner_index| %>
+                <td><%= line[:name] %></td>
+                <input type='hidden' name="item[line_items_attributes][<%= index %>][line_item_properties_attributes][<%= inner_index %>][item_property_item_id]" value="<%= line[:id] %>" disabled="disabled">
+              <% end %>
+              <td><input type='text' name="item[line_items_attributes][<%= index %>][price]" disabled="disabled"></td>
+              <td><input type='text' name="item[line_items_attributes][<%= index %>][inventory]" disabled="disabled">件</td>
+            </tr>      
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
+
+
+<script type="text/javascript">
+  $(function() {
+    $(':checkbox').change(function(event) {
+      var className = $(event.target).attr('class');
+      if ($(event.target).prop('checked')) {
+        var element = $('table .' + className).removeClass(className).addClass(className + 'Removed')
+        element.each(function(index, item, en) {
+          var count = 1*$(item).attr('data-count') - 1;
+          $(item).attr('data-count', count);
+          if (count == 0) {
+            $(item).removeClass('hidden');
+            $(item).find('input').attr('disabled', false);
+          }
+        });
+      } else {
+        var element = $('table .' + className + 'Removed').removeClass(className + 'Removed').addClass(className);
+        element.each(function(index, item, en) {
+          var count = 1*$(item).attr('data-count') + 1;
+          $(item).attr('data-count', count);
+          $(item).addClass('hidden');
+          $(item).find(':input').attr('disabled', true);
+        });
+      }
+    })
+  })
+</script>

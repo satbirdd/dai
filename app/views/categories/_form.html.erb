@@ -1,0 +1,34 @@
+<%= form_for(@category) do |f| %>
+	name: <%= f.text_field :name %>
+
+<!-- 	<div class='properties'>
+	</div>
+	<button class='add_property'>Add Product Property</button>
+
+	<div class='stock_properties'>
+	</div>
+	<button class='add_stock_property'>Add Stock Property</button> -->
+
+	<%= f.submit "Submit" %>
+<% end %>
+
+<script type="text/javascript">
+	$(function() {
+		var index_a = 0
+		  , index_b = 0;
+
+		$('.add_property').click(function(event) {
+			var html = "prperty name" + ": <input name='category[properties_attributes][" + index_a + "][name]'><br>";
+			index_a ++;
+			$('.properties').append(html);
+			return false;
+		});
+
+		$('.add_stock_property').click(function(event) {
+			var html = "stock_prperty name" +": <input name='category[stock_properties_attributes][" + index_b + "][name]'><br>";
+			index_b ++;
+			$('.stock_properties').append(html);
+			return false;
+		});
+	})
+</script>

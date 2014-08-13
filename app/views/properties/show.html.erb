@@ -1,0 +1,7 @@
+<p id="notice"><%= notice %></p>
+Items:<p>
+<% @property.property_items.each do |item| %>
+	<%= item.name %><br>
+<% end %>
+
+<%= link_to 'Edit', edit_property_path(@property) %>

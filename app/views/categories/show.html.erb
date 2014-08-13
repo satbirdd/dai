@@ -1,0 +1,13 @@
+<h2><%= @category.name %></h2>
+
+<h3>Properties</h3>
+<% @category.properties.each do |property| %>
+	<span><%= link_to property.name, property_path(property) %>
+<% end %>
+<%= link_to "Add Product Property", new_category_property_path(@category) %>
+
+<h3>Stock Properties</h3>
+<% @category.stock_properties.each do |property| %>
+	<span><%= link_to property.name, stock_property_path(property) %>
+<% end %>
+<%= link_to "Add Stock Property", new_category_stock_property_path(@category) %>

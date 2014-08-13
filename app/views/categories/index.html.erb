@@ -1,0 +1,6 @@
+<% @categories.each do |category| %>
+	<%= link_to category.name, category_path(category) %>
+<% end %>
+<p>
+
+<%= link_to "Add category", new_category_path %>

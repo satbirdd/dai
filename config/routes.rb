@@ -1,4 +1,10 @@
 Rails.application.routes.draw do
+
+	resources :categories do
+		resources :properties, shallow: true
+		resources :stock_properties, shallow: true
+	end
+
   get 'search', to: "search#index"
 
   root 'home#index'

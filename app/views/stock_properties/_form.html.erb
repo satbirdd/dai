@@ -1,0 +1,38 @@
+<%= form_for([@category, @stock_property]) do |f| %>
+  <% if @stock_property.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@stock_property.errors.count, "error") %> prohibited this stock_property from being saved:</h2>
+
+      <ul>
+      <% @stock_property.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  
+  <div>
+    name: <%= f.text_field :name %>
+  </div>
+
+  <div class='property_items'>
+  </div>
+  <button class='add_property_item'>Add Product Property</button>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
+
+<script type="text/javascript">
+  $(function() {
+    var index = 0;
+
+    $('.add_property_item').click(function(event) {
+      var html = "item name" + ": <input name='stock_property[stock_property_items_attributes][" + index + "][name]'><br>";
+      index ++;
+      $('.property_items').append(html);
+      return false;
+    });
+  })
+</script>

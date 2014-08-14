@@ -3,7 +3,10 @@ Rails.application.routes.draw do
 	resources :categories do
 		resources :properties, shallow: true
 		resources :stock_properties, shallow: true
+		resources :products, shallow: true
 	end
+
+	resources :items
 
   get 'search', to: "search#index"
 

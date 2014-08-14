@@ -1,4 +1,6 @@
-<p>Item List</p>
+you search for: <%= @search_conditions.join('<span> >> ').html_safe %>
+
+<p>结果：</p>
 <% @items.each do |item| %>
-	<%= item.product.name %><br>
+	<%= link_to item.name, item_path(item) %><br>
 <% end %>

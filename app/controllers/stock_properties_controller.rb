@@ -25,10 +25,11 @@ class StockPropertiesController < ApplicationController
   # POST /stock_properties
   # POST /stock_properties.json
   def create
-    @stock_property = @category.stock_properties.build(stock_property_params)
+    @stock_property = StockProperty.new(stock_property_params)
 
     respond_to do |format|
       if @stock_property.save
+        @category.stock_properties << @stock_property
         format.html { redirect_to @stock_property, notice: 'Stock property was successfully created.' }
         format.json { render :show, status: :created, location: @stock_property }
       else

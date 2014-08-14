@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140813055016) do
+ActiveRecord::Schema.define(version: 20140814025323) do
 
   create_table "categories", force: true do |t|
     t.string   "name"
@@ -91,14 +91,14 @@ ActiveRecord::Schema.define(version: 20140813055016) do
   create_table "sku_properties", force: true do |t|
     t.integer  "sku_id"
     t.integer  "stock_property_id"
-    t.integer  "stock_propery_item_id"
+    t.integer  "stock_property_item_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   add_index "sku_properties", ["sku_id"], name: "index_sku_properties_on_sku_id", using: :btree
   add_index "sku_properties", ["stock_property_id"], name: "index_sku_properties_on_stock_property_id", using: :btree
-  add_index "sku_properties", ["stock_propery_item_id"], name: "index_sku_properties_on_stock_propery_item_id", using: :btree
+  add_index "sku_properties", ["stock_property_item_id"], name: "index_sku_properties_on_stock_property_item_id", using: :btree
 
   create_table "skus", force: true do |t|
     t.integer  "item_id"
@@ -106,6 +106,7 @@ ActiveRecord::Schema.define(version: 20140813055016) do
     t.integer  "inventory"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.decimal  "price",      precision: 10, scale: 2
   end
 
   add_index "skus", ["item_id"], name: "index_skus_on_item_id", using: :btree

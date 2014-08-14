@@ -2,12 +2,18 @@
 
 <h3>Properties</h3>
 <% @category.properties.each do |property| %>
-	<span><%= link_to property.name, property_path(property) %>
+	<span><%= link_to property.name, property_path(property) %></span><br>
 <% end %>
 <%= link_to "Add Product Property", new_category_property_path(@category) %>
 
 <h3>Stock Properties</h3>
 <% @category.stock_properties.each do |property| %>
-	<span><%= link_to property.name, stock_property_path(property) %>
+	<span><%= link_to property.name, stock_property_path(property) %></span><br>
 <% end %>
 <%= link_to "Add Stock Property", new_category_stock_property_path(@category) %>
+
+<h3>Products</h3>
+<% @category.products.each do |product| %>
+	<span><%= link_to product.name, product_path(product) %></span><br>
+<% end %>
+<%= link_to "Add Product", new_category_product_path(@category) %>

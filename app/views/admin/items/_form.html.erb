@@ -43,10 +43,11 @@
             <tr class="hidden <%= item.map { |line| line[:name] }.join(' ') %>"  data-count='<%= item.length %>'>
               <% item.each_with_index do |line, inner_index| %>
                 <td><%= line[:name] %></td>
-                <input type='hidden' name="item[line_items_attributes][<%= index %>][line_item_properties_attributes][<%= inner_index %>][item_property_item_id]" value="<%= line[:id] %>" disabled="disabled">
+                <input type='hidden' name="item[skus_attributes][<%= index %>][sku_properties_attributes][<%= inner_index %>][stock_property_item_id]" value="<%= line[:id] %>" disabled="disabled">
+                <input type='hidden' name="item[skus_attributes][<%= index %>][sku_properties_attributes][<%= inner_index %>][stock_property_id]" value="<%= line[:property_id] %>" disabled="disabled">
               <% end %>
-              <td><input type='text' name="item[line_items_attributes][<%= index %>][price]" disabled="disabled"></td>
-              <td><input type='text' name="item[line_items_attributes][<%= index %>][inventory]" disabled="disabled">件</td>
+              <td><input type='text' name="item[skus_attributes][<%= index %>][price]" disabled="disabled"></td>
+              <td><input type='text' name="item[skus_attributes][<%= index %>][inventory]" disabled="disabled">件</td>
             </tr>      
           <% end %>
         <% else %>
@@ -54,10 +55,11 @@
             <tr class="hidden <%= item.map { |line| line[:name] }.join(' ') %>"  data-count='<%= item.length %>'>
               <% item.each_with_index do |line, inner_index| %>
                 <td><%= line[:name] %></td>
-                <input type='hidden' name="item[line_items_attributes][<%= index %>][line_item_properties_attributes][<%= inner_index %>][item_property_item_id]" value="<%= line[:id] %>" disabled="disabled">
+                <input type='hidden' name="item[skus_attributes][<%= index %>][sku_properties_attributes][<%= inner_index %>][stock_property_item_id]" value="<%= line[:id] %>" disabled="disabled">
+                <input type='hidden' name="item[skus_attributes][<%= index %>][sku_properties_attributes][<%= inner_index %>][stock_property_id]" value="<%= line[:property_id] %>" disabled="disabled">
               <% end %>
-              <td><input type='text' name="item[line_items_attributes][<%= index %>][price]" disabled="disabled"></td>
-              <td><input type='text' name="item[line_items_attributes][<%= index %>][inventory]" disabled="disabled">件</td>
+              <td><input type='text' name="item[skus_attributes][<%= index %>][price]" disabled="disabled"></td>
+              <td><input type='text' name="item[skus_attributes][<%= index %>][inventory]" disabled="disabled">件</td>
             </tr>      
           <% end %>
         <% end %>

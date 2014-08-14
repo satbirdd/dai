@@ -3,4 +3,6 @@ class StockProperty < ActiveRecord::Base
 	has_many :stock_property_items
 
 	accepts_nested_attributes_for :stock_property_items
+
+	has_many :sku_properties
 end

@@ -1,1 +1,5 @@
+<% @shop.items.each do |item| %>
+	<%= item.name %><br>
+<% end %>
+
 <%= link_to "add items", categories_admin_shop_items_path(current_shop) %>

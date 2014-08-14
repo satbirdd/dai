@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p><%= @item.name %></p>
+
+<% @property_collection.each do |property_id, property| %>
+	<div>
+		<%= property[:name] %>: 
+		<% property[:items].each do |item| %>
+			<span>
+				<button data-item-id="<%= item[:id] %>"><%= item[:name] %></button>
+			</span>
+		<% end %>
+	</div>
+<% end %>
+
+<input type='text' value=1>件 库存
+<span class='inventory'><%= @total_inventory %></span>件
+</p>
+<%= link_to 'Edit', edit_item_path(@item) %> |
+<%= link_to 'Back', items_path %>
+
+<script type="text/javascript">
+	a = <%= @inventories.to_json.html_safe %>
+</script>

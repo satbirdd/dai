@@ -25,10 +25,11 @@ class PropertiesController < ApplicationController
   # POST /properties
   # POST /properties.json
   def create
-    @property = @category.properties.build(property_params)
+    @property = Property.new(property_params)
 
     respond_to do |format|
       if @property.save
+        @category.properties << @property
         format.html { redirect_to @property, notice: 'Property was successfully created.' }
         format.json { render :show, status: :created, location: @property }
       else

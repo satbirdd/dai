@@ -1,0 +1,71 @@
+<%= form_for([@category, @product]) do |f| %>
+  <% if @product.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@product.errors.count, "error") %> prohibited this product from being saved:</h2>
+
+      <ul>
+      <% @product.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    name: <%= f.text_field :name %>
+  </div>
+  <p>
+
+  属性选择：<br>
+  <% @category.properties.each do |prop| %>
+    <%= prop.name %>:
+    <% prop.property_items.each_with_index do |item, index| %>
+      <button data-item-id='<%= item.id %>' data-chosen='false' class='property-item'><%= item.name %></button>
+      <input name='product[product_properties_attributes][<%= index %>][property_item_id]'
+             type='hidden'
+             class='item-id-<%= item.id %>'
+             value='<%= item.id %>'
+             disabled='disabled'>
+      <input name='product[product_properties_attributes][<%= index %>][property_id]'
+             type='hidden'
+             class='item-id-<%= item.id %>'
+             value='<%= prop.id %>'
+             disabled='disabled'>
+    <% end %>
+  <% end %>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
+
+<script type="text/javascript">
+  $(function() {
+    $('.property-item').click(function(event) {
+      var $target = $(event.target);
+
+      if ('false' === $target.attr('data-chosen')) {
+        $target.siblings('button').removeClass('chosen').attr('data-chosen', 'false');
+        $target.addClass('chosen');
+
+        var id = $target.attr('data-item-id')
+          , $input = $('.item-id-' + id);
+
+        $target.attr('data-chosen', 'true');
+
+        $target.siblings('input').attr('disabled', true);
+        $input.attr('disabled', false);
+      } else if ('true' === $target.attr('data-chosen')) {
+        $target.attr('data-chosen', 'false');
+        $target.removeClass('chosen');
+
+        var id = $target.attr('data-item-id')
+          , $input = $('.item-id-' + id);
+
+        $input.attr('disabled', true);
+      }
+
+      return false;
+    });
+  });
+</script>

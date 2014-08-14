@@ -19,3 +19,7 @@
 .hidden {
 	display: none;
 }
+
+button.chosen {
+	border: 1px solid red;
+}

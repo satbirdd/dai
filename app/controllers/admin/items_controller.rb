@@ -23,7 +23,7 @@ class Admin::ItemsController < ApplicationController
 		@item = current_shop.items.build(product_id: @product.id)
 
 		@line_items = @category.stock_properties.map do |p|
-      p.stock_property_items.map { |item| {name: item.name, id: item.id} }
+      p.stock_property_items.map { |item| { name: item.name, id: item.id, property_id: p.id } }
     end
 	end
 
@@ -31,6 +31,17 @@ class Admin::ItemsController < ApplicationController
 	end
 
 	def create
+		@item = current_shop.items.build(item_params)
+
+    respond_to do |format|
+      if @item.save
+        format.html { redirect_to @item, notice: 'Item was successfully created.' }
+        format.json { render :show, status: :created, location: @item }
+      else
+        format.html { render :new }
+        format.json { render json: @item.errors, status: :unprocessable_entity }
+      end
+    end
 	end
 
 	def update
@@ -51,6 +62,7 @@ class Admin::ItemsController < ApplicationController
 
 		def item_params
 			params.require(:item).permit(:shop_id, :product_id,
-        line_items_attributes: [:price, :inventory, line_item_properties_attributes: [:item_property_item_id]])
+        skus_attributes: [:price, :inventory,
+        	sku_properties_attributes: [:stock_property_item_id, :stock_property_id]])
 		end
 end

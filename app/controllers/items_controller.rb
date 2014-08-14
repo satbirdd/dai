@@ -23,6 +23,8 @@ class ItemsController < ApplicationController
       end
     end
 
+    puts "==== #{@property_collection} ===="
+
     @total_inventory = @item.skus.sum(:inventory)
 
     # [{ id: 1, 2: 10, 3: 13, inventory: 25 }]

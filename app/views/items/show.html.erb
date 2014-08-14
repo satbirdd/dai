@@ -1,14 +1,17 @@
 <p id="notice"><%= notice %></p>
-
+<p>欢迎光临: <%= @item.shop.name %></p>
 <p><%= @item.name %></p>
 
 <% @property_collection.each do |property_id, property| %>
-	<div>
+	<div class='stock-property' data-chosen='false'>
 		<%= property[:name] %>: 
-		<% property[:items].each do |item| %>
-			<span>
-				<button data-item-id="<%= item[:id] %>"><%= item[:name] %></button>
-			</span>
+		<% property[:items].uniq.each do |item| %>
+			<button data-stock-property-id="<%= property_id %>"
+				      data-stock-property-item-id="<%= item[:id] %>"
+				      class='property-item'
+				      data-chosen='false'>
+				      <%= item[:name] %>
+			</button>
 		<% end %>
 	</div>
 <% end %>
@@ -20,5 +23,36 @@
 <%= link_to 'Back', items_path %>
 
 <script type="text/javascript">
-	a = <%= @inventories.to_json.html_safe %>
+	inventories = <%= @inventories.to_json.html_safe %>;
+	$(function() {
+		$('.property-item').click(function(event) {
+			var $target = $(event.target);
+			if ('false' === $target.attr('data-chosen')) {
+				$target.attr('data-chosen', 'true').addClass('chosen');
+				$target.parent('div.stock-property').attr('data-chosen', 'true');
+				$target.siblings('button').attr('data-chosen', 'false').removeClass('chosen');
+
+				// all property has at least one item chosen
+				if ($('.stock-property').length === $('.stock-property[data-chosen="true"]').length) {
+					var result = {}
+					  , condition = $('button[data-chosen="true"]').each(function(index, item, en) {
+								result[$(item).attr('data-stock-property-id')] = $(item).attr('data-stock-property-item-id');
+							});
+
+					var sku = inventories.filter(function(item, index, en) {
+						var keys = $.map(result, function(value, key) {
+							return key;
+						})
+						return keys.every(function(i, index, en) {
+							return result[i.toString()] == item[i.toString()];
+						})
+					})[0]
+					var inventory = sku.inventory;
+					$('.inventory').html(inventory);
+				}
+			} else if ('true' === $target.attr('data-chosen')) {
+				$target.attr('data-chosen', 'false').removeClass('chosen');
+			}
+		});
+	});
 </script>

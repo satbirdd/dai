@@ -17,9 +17,10 @@
   <p>
 
   属性选择：<br>
+  <% index = 0 %>
   <% @category.properties.each do |prop| %>
     <%= prop.name %>:
-    <% prop.property_items.each_with_index do |item, index| %>
+    <% prop.property_items.each do |item| %>
       <button data-item-id='<%= item.id %>' data-chosen='false' class='property-item'><%= item.name %></button>
       <input name='product[product_properties_attributes][<%= index %>][property_item_id]'
              type='hidden'
@@ -31,7 +32,9 @@
              class='item-id-<%= item.id %>'
              value='<%= prop.id %>'
              disabled='disabled'>
+      <% index += 1 %>
     <% end %>
+    </p>
   <% end %>
 
   <div class="actions">

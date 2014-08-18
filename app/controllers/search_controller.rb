@@ -1,7 +1,7 @@
 class SearchController < ApplicationController
   def index
   	@search_conditions = []
-    @url_data = {}
+    @url_data = {prop: {}}
     @filter_conditions = {}
 
   	@category_id = params[:cat]
@@ -32,16 +32,26 @@ class SearchController < ApplicationController
 
   protected
   	def prop_product_ids
-  		product_properties = ProductProperty.all
-
+  		product_ids = []
+      init = true
+      puts "|||------>#{@props}-------"
   		prop_pairs = @props.split(';')
   		prop_pairs.each do |pair|
   			key, value = pair.split(':')
-        @url_data[key.to_sym] = value
-  			product_properties = product_properties.where(property_id: key, property_item_id: value)
+        @url_data[:prop] ||= {}
+        @url_data[:prop][key.to_sym] = value
+        if init
+          product_ids = ProductProperty.where(property_id: key, property_item_id: value).pluck(:product_id)
+          init = false
+          puts "1==> #{product_ids}===#{init}"
+        else
+          fits = ProductProperty.where(property_id: key, property_item_id: value).pluck(:product_id)
+          product_ids &= fits
+          puts "2==> #{product_ids}===#{fits}"
+        end
   			@search_conditions << PropertyItem.find(value).name
   		end
-
-	  	product_properties.pluck(:product_id)
+      puts "==> #{product_ids}==="
+	  	product_ids
   	end
 end

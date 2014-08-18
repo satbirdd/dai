@@ -1,3 +1,12 @@
 <p id="notice"><%= notice %></p>
+Name: <%= @product.name %>
+</p>
+Category: <%= @product.category.name %>
+
+<% @product.product_properties.each do |property| %>
+	<p>
+		<%= property.property.name %>: <%= property.property_item.name %>
+	</p>
+<% end %>
 
 <%= link_to 'Edit', edit_product_path(@product) %>

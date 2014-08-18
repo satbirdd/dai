@@ -3,12 +3,14 @@ you search for: <%= @search_conditions.join('<span> >> ').html_safe %>
 </p>
 Filters:
 <% @filter_conditions.each do |property_id, property| %>
-	<div class='stock-property' data-chosen='false'>
-		<%= property[:name] %>: 
-		<% property[:items].uniq.each do |item| %>
-			<%= link_to item[:name], search_url_generator(:prop, property_id, item[:id]) %>
-		<% end %>
-	</div>
+	<% unless @url_data[:prop].keys.include?(property_id.to_s.to_sym) %>
+		<div class='stock-property' data-chosen='false'>
+			<%= property[:name] %>:
+			<% property[:items].uniq.each do |item| %>
+				<%= link_to item[:name], search_url_generator(:prop, property_id, item[:id]) %>
+			<% end %>
+		</div>
+	<% end %>
 <% end %>
 
 <p>结果：</p>

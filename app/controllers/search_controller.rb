@@ -34,7 +34,6 @@ class SearchController < ApplicationController
   	def prop_product_ids
   		product_ids = []
       init = true
-      puts "|||------>#{@props}-------"
   		prop_pairs = @props.split(';')
   		prop_pairs.each do |pair|
   			key, value = pair.split(':')
@@ -43,15 +42,12 @@ class SearchController < ApplicationController
         if init
           product_ids = ProductProperty.where(property_id: key, property_item_id: value).pluck(:product_id)
           init = false
-          puts "1==> #{product_ids}===#{init}"
         else
           fits = ProductProperty.where(property_id: key, property_item_id: value).pluck(:product_id)
           product_ids &= fits
-          puts "2==> #{product_ids}===#{fits}"
         end
   			@search_conditions << PropertyItem.find(value).name
   		end
-      puts "==> #{product_ids}==="
 	  	product_ids
   	end
 end

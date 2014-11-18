@@ -1,4 +1,7 @@
 <p id="notice"><%= notice %></p>
+Items:</p>
+<% @stock_property.stock_property_items.each do |item| %>
+	<%= item.name %><br>
+<% end %>
 
-<%= link_to 'Edit', edit_stock_property_path(@stock_property) %> |
-<%= link_to 'Back', stock_properties_path %>
+<%= link_to 'Edit', edit_stock_property_path(@stock_property) %>
